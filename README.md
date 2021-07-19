@@ -12,6 +12,8 @@
 - BDSpyrunner
 - pymongo python模块
 
+MultiOnlineBags以GPLv3许可证开源，这意味着**你需要自行承担丢失数据的风险**。它的所有衍生版本亦应按照GPLv3开源。
+
 ## 部署
 
 ### Windows7/10/11
@@ -36,12 +38,12 @@
 ```python
 class playerClass(): 
     def __init__(self, player):
-        address = "localhost:27017/" #可修改，写成你的MongoDB数据库ip:端口
+        address = "localhost:27017/" #写成你的MongoDB数据库ip:端口
         client = pymongo.MongoClient("mongodb://" + address)
         db = client['bagsDB']
         self.col = db[player.xuid]
         self.player = player
-        self.totalBagNum = 2 #可修改，每个玩家拥有的背包个数
+        self.totalBagNum = 2 #每个玩家拥有的背包个数
         self.getNonFreeBags()
         self.getFreeBags()
 ```
@@ -53,9 +55,15 @@ class playerClass():
 - 弹出对话框提示XXX dll出错：可能是按照BDSpyrunner装了最新版的BDXcore而不是liteloader，wiki害人呐
 - 其他问题，包括README看不懂，操作卡在哪一步之类，发issue就行。
 
-多bb一句，虽说突然关服应该不会丢失玩家背包数据，关服前还是让所有玩家先自行退出为妙。~~可以直接kick @a~~
+在测试过程中，突然关闭服务器未见背包丢失情况，但关服前还是让所有玩家先自行退出为妙。~~可以直接kick @a~~  再强调一遍，**你需要自行承担数据丢失的风险。**
 
 上插件之前最好也做一次备份，避免背包数据丢失。
+
+## TODO(gugugu)
+
+- [ ] 在BDS on Linux上尝试部署
+- [ ] 使用c++重写一个版本
+- [ ] 支持 *真正的* 指令注册
 
 ## 鸣谢
 
