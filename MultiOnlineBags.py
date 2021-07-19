@@ -2,7 +2,6 @@ import mc
 import json
 import pymongo
 import os
-import re #处理字符串中的数字用的
 
 # 从文件中获取JSON
 def fileConvert(file):
@@ -63,7 +62,7 @@ class playerClass():
             mc.logout("name:"+str(self.player.name)+" xuid:"+str(self.player.xuid)+" 的背包获取完毕\n")
             code = 0
         else:
-            code = 10086
+            code = 114514
         return code
     def save(self, arg):
         #执行save操作
@@ -122,7 +121,7 @@ class form():
             code = self.playerObject.get(arg)
             if code == 0:
                 self.playerObject.newForm("get_pass")
-            elif code == 10086:
+            elif code == 114514:
                 self.playerObject.newForm("get_not_empty")
         elif self.mode == "save":
             self.playerObject.save(arg)
