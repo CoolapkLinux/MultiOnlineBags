@@ -29,7 +29,7 @@ MultiOnlineBags以GPLv3许可证开源，这意味着**你需要自行承担丢�
 7. 打开powershell（或者命令提示符），执行pip install pymongo --target=plugins/py文件夹的路径
 8. 在硬盘某一位置建立一个文件夹。（该目录和上级目录最好都是英文）
 9. 在mongodb的bin目录（默认在C:\Program Files\MongoDB\Server\\[版本号]\bin）shift右键，用powershell（命令提示符也行）执行.\mongod --dbpath 刚才的文件夹目录，并保持这个终端窗口不要关闭。
-10. 打开BDS，看到 loading MultiOnlineBags 应该就可以使用了
+10. 打开BDS，看到 loading MultiOnlineBags 应该就可以使用了。
 
 ## 配置
 
@@ -48,14 +48,23 @@ class playerClass():
         self.getFreeBags()
 ```
 
+## 使用
+
+在玩家进入和退出的时候会自动同步其背包，进入时默认加载1号背包。
+
+输入/bags打开背包菜单，可存入当前背包、取用背包，但取用之前必须确保自己没有物品（包括穿戴主手末影箱）
+
 ## 问题排查与避免
 
 - 玩家进入后，BDS卡死，退出后过一段时间滚出大堆错误：MongoDB server没启动，或者ip/端口配置出错
 - 每个玩家进入时都会提示是第一次进入：刚装插件后第一次进提示是正常现象，每次进入都提示，请发issue
 - 弹出对话框提示XXX dll出错：可能是按照BDSpyrunner的wiki装了最新版的BDXcore而不是liteloader，wiki害人呐
+- 输入命令的时候会出现未知指令的提示，属正常现象，不影响使用（上游的锅，已提issue）
 - 其他问题，包括README看不懂，操作卡在哪一步之类，发issue就行。
 
 在测试过程中，突然关闭服务器未见背包丢失情况，但关服前还是让所有玩家先自行退出为妙。~~可以直接kick @a~~  再强调一遍，**你需要自行承担数据丢失的风险。**
+
+如需关闭数据库的终端窗口，请先关闭BDS服务端！！！
 
 上插件之前最好也做一次备份，避免背包数据丢失。
 
