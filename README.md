@@ -24,7 +24,7 @@ MultiOnlineBags以GPLv3许可证开源，这意味着**你需要自行承担丢�
 
 1. 在 [Index of /ftp/python/](https://www.python.org/ftp/python/) 下载以3.7开头的python-3.7.x-amd64.exe，安装，注意安装的时候**一定一定一定**要勾选添加PATH。
 2. 在 [Community Download | MongoDB](https://www.mongodb.com/try/download/community) 下载mongodb，选择Cloud>MongoDB Community Server，version选最新稳定版，Platform选windows，Package选msi，下载安装。（网页可能显示不全）
-3. 在 https://github.com/LiteLDev/LiteLoaderBDS/releases/ 页面下载liteloader1.1.0版。下载后把解压出的所有文件放入BDS根目录，运行RoDB.exe文件。
+3. 在 https://github.com/LiteLDev/LiteLoaderBDS/releases/ 页面下载liteloader1.1.0版。下载后把解压出的所有文件放入BDS根目录，运行SymDB2.exe文件。
 4. 在[Release 适配1.17.10 · yzu999/BDSpyrunner (github.com)](https://github.com/yzu999/BDSpyrunner/releases/tag/1.6.0) 下载dll文件，放入plugins文件夹，运行BDS主程序，如果出现BDSpyrunner说明配置成功。
 6. 下载release里的压缩包，将其中的MultiOnlineBags.py放入plugins/py文件夹，defaultBag.json放入BDS根目录。
 7. 打开powershell（或者命令提示符），执行pip install pymongo --target=plugins/py文件夹的路径
