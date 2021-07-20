@@ -151,7 +151,8 @@ def replyForm(arg):
     if arg['selected'] != 'null':
         global playerObject
         formid = arg['formid']
-        playerObject[arg['player']].form.execute(int(arg['selected']))
+        if arg['player'] in playerObject:
+            playerObject[arg['player']].form.execute(int(arg['selected']))
 
 def join(player):
     global playerObject
