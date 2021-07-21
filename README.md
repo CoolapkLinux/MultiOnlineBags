@@ -16,7 +16,7 @@ MultiOnlineBags以GPLv3许可证开源，这意味着**你需要自行承担丢�
 
 ## 部署
 
-<font color=Red>注意！以下内容仅对1.17.10适用，更低版本请以release压缩包里的README.md为准！更新记录里会告知测试成功的依赖版本，请留意！</font>
+<font color=Red>注意！以下内容仅对1.17.10适用，请在左上角branch调成你的MC版本！</font>
 
 ### Windows7/10/11
 
@@ -49,6 +49,10 @@ class playerClass():
         self.getFreeBags()
 ```
 
+如果您需要使用物理跨服，请参考[配置文件选项_MonogDB 中文网](https://mongodb.net.cn/manual/reference/configuration-options/)写配置文件，写bindIp要涵盖你配置插件的服务器ip，port要用映射到公网的端口，然后在上面address配置成数据库所在服务器ip:port。
+
+Windows上mongodb二进制文件和默认配置文件装在`C:\Program Files\MongoDB\Server\<版本号>\bin`，在此目录下输入`.\mongodb --config <配置文件目录>`开启mongodb。
+
 ## 使用
 
 在玩家进入和退出的时候会自动同步其背包，进入时默认加载1号背包。
@@ -62,9 +66,8 @@ class playerClass():
 - 输入命令的时候会出现未知指令的提示，属正常现象，不影响使用（上游的锅，已提issue）
 - 其他问题，包括README看不懂，操作卡在哪一步之类，发issue就行。
 - 如果输入/bags没反应，可能是服务器没开作弊（修改BDS根目录的server.properties，allow-cheats=true）
-- 部署都正确的情况下，打开BDS报错，显示import xxx转来转去到了一个不存在的目录（甚至不存在的盘符）。你可能使用了某种开服包，作者在把python库打包成dll文件时忘记涵盖其依赖库，运行时就会尝试寻找一个作者电脑上存在的文件。可以尝试删除BDS根目录以python37开头的文件，再进入报错就用部署第6点的方法缺啥装啥，但是这样其他一些插件可能挂掉。**所以真的十分不推荐使用开服包。**
-
-在测试过程中，突然关闭服务器未见背包丢失情况，但关服前还是让所有玩家先自行退出为妙。~~可以直接kick @a~~  再强调一遍，**你需要自行承担数据丢失的风险。**
+- 部署都正确的情况下，打开BDS报错，显示import xxx转来转去到了一个不存在的目录（甚至不存在的盘符）。你可能使用了某种开服包，作者在把python库打包成dll文件后，这个dll会干扰python的path。可以尝试删除BDS根目录以python37开头的dll文件，再进入报错就用部署第6点的方法缺啥装啥，但是这样其他一些插件可能挂掉。
+- 在测试过程中，突然关闭服务器未见背包丢失情况，但关服前还是让所有玩家先自行退出为妙。~~可以直接kick @a~~  再强调一遍，**你需要自行承担数据丢失的风险。**
 
 如需关闭数据库的终端窗口，请先关闭BDS服务端！！！
 

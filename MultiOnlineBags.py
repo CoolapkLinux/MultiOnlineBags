@@ -12,7 +12,7 @@ class playerClass():
     # 注意Data是json格式，oganesson和alexhhh都是伞兵
     def __init__(self, player):
         # 初始化玩家对应的数据库
-        address = "localhost:27017/"
+        address = "127.0.0.1:20114/"
         client = pymongo.MongoClient("mongodb://" + address)
         db = client['bagsDB']
         self.col = db[player.xuid]
@@ -110,7 +110,7 @@ class form():
         elif self.mode == "incorrect":
             self.player.sendTextPacket("[MOB]您输入的命令有误，我们提供了/bags，/bags save与/bags get以更改您的背包")
         global listDict
-        listDict[int(self.listId)] = self
+        listDict[int(self.listId)] = self.player.xuid
     def execute(self, arg):
         if self.mode == "main":
             if arg == 0:
@@ -151,7 +151,10 @@ def replyForm(arg):
     if arg['selected'] != 'null':
         global playerObject
         formid = arg['formid']
-        playerObject[arg['player']].form.execute(int(arg['selected']))
+        player = arg['player']
+        if arg['player'] in playerObject and int(formid) in listDict:
+            if listDict[int(formid)] == player.xuid and hasattr(playerObject[arg['player']], 'form'):
+                playerObject[arg['player']].form.execute(int(arg['selected']))
 
 def join(player):
     global playerObject
