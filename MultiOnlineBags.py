@@ -12,7 +12,7 @@ class playerClass():
     # 注意Data是json格式，oganesson和alexhhh都是伞兵
     def __init__(self, player):
         # 初始化玩家对应的数据库
-        address = "127.0.0.1:20114/"
+        address = "127.0.0.1:27017/"
         client = pymongo.MongoClient("mongodb://" + address)
         db = client['bagsDB']
         self.col = db[player.xuid]
@@ -33,6 +33,7 @@ class playerClass():
     def setDbItem(self, bagNum):
         # 将背包放入数据库
         DataDict = json.loads(self.Data)
+        del DataDict['Hand'] #清除主手物品，避免覆盖
         DataDict["_id"] = bagNum
         #Data = json.dumps(DataDict)
         self.col.insert_one(DataDict)
@@ -134,42 +135,62 @@ class form():
                 self.playerObject.newForm("main")
 
 def command(arg):
-    player = arg['player']
-    cmd = arg['cmd'].split()
-    global playerObject
-    if cmd[0] == "/bags":
-        if len(cmd) == 1:
-            playerObject[player].newForm("main")
-        elif cmd[1] == 'get':
-            playerObject[player].newForm("get")
-        elif cmd[1] == 'save':
-            playerObject[player].newForm("save")
-        else:
-            playerObject[player].newForm("incorrect")
+    try:
+        player = arg['player']
+        cmd = arg['cmd'].split()
+        global playerObject
+        if cmd[0] == "/bags":
+            if len(cmd) == 1:
+                playerObject[player].newForm("main")
+            elif cmd[1] == 'get':
+                playerObject[player].newForm("get")
+            elif cmd[1] == 'save':
+                playerObject[player].newForm("save")
+            else:
+                playerObject[player].newForm("incorrect")
+            return False #避免返回不存在的指令
+    except:
+        pass
 
 def replyForm(arg):
-    if arg['selected'] != 'null':
-        global playerObject
-        formid = arg['formid']
-        player = arg['player']
-        if arg['player'] in playerObject and int(formid) in listDict:
-            if listDict[int(formid)] == player.xuid and hasattr(playerObject[arg['player']], 'form'):
-                playerObject[arg['player']].form.execute(int(arg['selected']))
+    try:
+        if arg['selected'] != 'null':
+            global playerObject
+            formid = arg['formid']
+            player = arg['player']
+            if arg['player'] in playerObject and int(formid) in listDict:
+                if listDict[int(formid)] == player.xuid and hasattr(playerObject[arg['player']], 'form'):
+                    playerObject[arg['player']].form.execute(int(arg['selected']))
+    except:
+        pass
+    return True
 
 def join(player):
-    global playerObject
-    playerObject[player] = playerClass(player) #将playerClass实例化，从而调用属性和方法
-    if playerObject[player].nonFreeBagNumList == []:
-        player.sendTextPacket("[MOB]你是第一次登录服务器耶！\n如果不是，请向腐竹反馈")
-    else:
-        playerObject[player].get(0)
+    try:
+        global playerObject
+        playerObject[player] = playerClass(player) #将playerClass实例化，从而调用属性和方法
+        if autosave == True:
+            if playerObject[player].nonFreeBagNumList == []:
+                player.sendTextPacket("[MOB]你是第一次登录服务器耶！\n如果不是，请向腐竹反馈")
+            else:
+                playerObject[player].get(0)
+    except:
+        pass
+    return True
 
 def left(player):
-    global playerObject
-    playerObject[player].getNonFreeBags()
-    playerObject[player].getFreeBags()
-    playerObject[player].save(0)
-    del playerObject[player]
+    try:
+        global playerObject
+        playerObject[player].getNonFreeBags()
+        playerObject[player].getFreeBags()
+        if autosave == True:
+            playerObject[player].save(0)
+        del playerObject[player]
+    except:
+        pass
+    return True
+
+autosave = False #在玩家进入退出时自动加载、保存背包（True/False）
 
 listDict = {}
 playerObject = {}
